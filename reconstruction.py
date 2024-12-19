@@ -1,10 +1,10 @@
 import resolve as rve
 import nifty8 as ift
 
-from utils import save_config_copy_easy
-from radio_project_helpers.plotting import build_callback
-from radio_project_helpers.minimization_parser import (
-    build_samples, build_minimizer, build_sampling)
+from utils import (
+    save_config_copy_easy, build_callback, build_samples, build_minimizer,
+    build_sampling,
+)
 
 from os import makedirs
 from os.path import join
@@ -61,5 +61,5 @@ samples, sci_position = ift.optimize_kl(
     export_operator_outputs={
         key: val for key, val in sky_diffuse_operators.items() if 'power' not in key
     },
-    resume=False
+    resume=cfg['minimization']['resume'],
 )
