@@ -16,7 +16,7 @@ observation = rve.Observation.load(file)
 observation = freq_average(observation, 3)
 
 
-sdom = ift.RGSpace(shape=(1024,)*2, distances=(10*u.arcsec).to(u.rad))
+sdom = ift.RGSpace(shape=(1024,)*2, distances=(10*u.arcsec/1024).to(u.rad))
 pdom = rve.PolarizationSpace(['I'])
 tdom = fdom = rve.IRGSpace([1.0])
 domain = ift.makeDomain((pdom, tdom, fdom, sdom))
