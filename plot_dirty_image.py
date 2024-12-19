@@ -21,6 +21,5 @@ R = rve.InterferometryResponse(
 
 
 Radjoint_vis = R.adjoint(observation.vis)
-
 plt.imshow(Radjoint_vis.val[0, 0, 0], origin='lower')
 plt.show()

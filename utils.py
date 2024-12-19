@@ -4,6 +4,7 @@ import nifty8 as ift
 from typing import Callable
 import matplotlib.pyplot as plt
 from matplotlib.colors import LogNorm
+from astropy.io import fits
 
 import numpy as np
 
@@ -117,3 +118,27 @@ def build_callback(sky, output_directory, master, save_fits=True):
         plt.close()
 
     return callback
+
+
+def load_fits(path_to_file, fits_number=0, sum_axis=None, get_header=False):
+    if sum_axis is not None:
+        with fits.open(path_to_file) as hdul:
+            header = hdul[0].header
+            data = hdul[0].data.sum(axis=sum_axis)
+            multiplicity = hdul[0].data.shape[sum_axis]
+        if get_header:
+            return np.array(data), multiplicity, header
+        return np.array(data), multiplicity
+
+    with fits.open(path_to_file) as hdul:
+        headers = [h.header for h in hdul if isinstance(h, ImageHDU)]
+        datas = [h.data for h in hdul if isinstance(h, ImageHDU)]
+        if len(headers) == 0:
+            header = hdul[0].header
+            data = hdul[0].data
+        else:
+            header = headers[fits_number]
+            data = datas[fits_number]
+    if get_header:
+        return np.array(data).astype(np.float64), header
+    return np.array(data).astype(np.float64)
